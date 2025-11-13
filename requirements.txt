@@ -16,8 +16,27 @@ matplotlib==3.9.2
 plotly==5.24.1
 dash==2.18.2
 dash-bootstrap-components==1.6.0
+seaborn==0.13.2
 
-# Utils
+# modeling and evaluation
+scikit-learn==1.5.2
+xgboost==2.1.1
+lightgbm==4.5.0
+catboost==1.2.5
+imbalanced-learn==0.12.3  # for class imbalance strategies (SMOTE, etc.)
+shap==0.44.1              # model explainability (works with XGB/LGBM/CatBoost)
+optuna==3.6.1             # hyperparameter tuning
 tqdm==4.66.5
-pydantic==2.9.2
-pyyaml==6.0.2
+
+# Configs and utilities
+PyYAML==6.0.2             # for configs/config.yaml
+rich==13.7.1              # pretty logging / progress (optional but nice)
+
+# Dashboard for bonus
+streamlit==1.39.0
+
+# Notebooks (local dev)
+
+jupyterlab==4.2.5
+ipykernel==6.29.5
+ipython==8.26.0
