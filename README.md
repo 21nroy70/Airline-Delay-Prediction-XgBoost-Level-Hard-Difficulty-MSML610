@@ -11,6 +11,7 @@ If you clone my repository, all you really have to do see the visuals and all my
 ## Reproduction On Command Line (Once you have cloned my repository:
 
 1) Create env
+
 conda create -n airline-delay-prediction python=3.10 -y
 
 conda activate airline-delay-prediction
@@ -28,4 +29,5 @@ python -m src.train_xgb           # tuned XGB (writes models/tuned_all_features_
 python -m src.train_baselines     # LGBM + CatBoost (writes models/{lgbm,cat}_all_features_*)
 
 3) Launch app
+
 streamlit run src/app.py
