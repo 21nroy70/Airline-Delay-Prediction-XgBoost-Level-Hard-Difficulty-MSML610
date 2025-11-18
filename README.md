@@ -53,4 +53,5 @@ notebooks/05_running_app.ipynb
 
 - My "XYZ.example.ipynb" is each of the 5 .ipynb in the Notebooks (5 .ipynb notebooks). Using them all, this create the "XYZ.API.ipynb"
 
-My code which is used above is stored in the src folders with .py files
+
+- My code which is used above is stored in the src folders with .py files
