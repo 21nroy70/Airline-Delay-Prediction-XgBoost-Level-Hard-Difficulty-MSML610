@@ -130,9 +130,14 @@ def join_airlines_airports(flights, airlines, airports):
 
 
 def write_parquet(df, out_dir: str, name: str):
-    # save the cleaned / joined / labeled data as parquet for the next steps
+    import shutil, pathlib
     path = os.path.join(out_dir, name)
-    df.write.mode("overwrite").parquet(path)
+    p = pathlib.Path(path)
+    if p.exists():
+        shutil.rmtree(p)  # nuke any leftover/LFS-restored parts
+    (df
+        # .repartition(8)  # optional: stable number of output files
+        .write.mode("overwrite").parquet(path))
     print(f"Wrote: {path}")
 
 
