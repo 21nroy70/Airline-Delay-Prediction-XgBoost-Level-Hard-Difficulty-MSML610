@@ -10,7 +10,7 @@ If you clone my repository, all you really have to do see the visuals and all my
 
 ## Reproduction On Command Line (Once you have cloned my repository:
 
-1) Create env
+### 1) Create env
 
 conda create -n airline-delay-prediction python=3.10 -y
 
@@ -20,21 +20,20 @@ pip install -r requirements.txt
 
 (CatBoost sometimes needs OpenMP on Mac; LightGBM wheel covers most setups)
 
-2) Produce features & train (XGB tuned + baselines):
+### 2) Produce features & train (XGB tuned + baselines):
 
 Chose 1 of the ways to run:
 
-a. If you wanna run .py files:
+#### a. If you wanna run .py files:
 
 python -m src.spark_etl          
-  or: notebooks/01_spark_etl_and_features.ipynb
 
 python -m src.train_xgb           
 
 python -m src.train_baselines    
 
 
-b. Or if you wanna run .ipynb files:
+#### b. Or if you wanna run .ipynb files:
 
 notebooks/01_spark_etl_and_features.ipynb
 
@@ -42,7 +41,7 @@ notebooks/03_train_evaluate_model.ipynb
 
 notebooks/04_tuning_models_ex.ipynb
 
-3) Launch app
+### 3) Launch app
 
 streamlit run src/app.py
 
