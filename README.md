@@ -56,5 +56,18 @@ notebooks/05_running_app.ipynb
 
 - My code which is used above is stored in the src folders with .py files
 
+
+### Docker:
+
 - I have included Docker (4 files at the root of this repository), you can run them once you have cloned and are in my repository in the command/terminal: chmod +x docker_build.sh docker_bash.sh docker_jupyter.sh docker_streamlit.sh
+
+- run order:
+
+bash docker_build.sh
+
+for a shell: bash docker_bash.sh
+
+for Jupyter: bash docker_jupyter.sh → open http://localhost:8888
+
+for the app: bash docker_streamlit.sh → open http://localhost:8501
 
