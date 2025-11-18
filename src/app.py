@@ -253,7 +253,7 @@ def _example_row() -> dict:
         "DESTINATION_AIRPORT": "LAX",
         "ORIGIN_STATE": "MD",
         "DEST_STATE": "CA",
-        "DEPARTURE_DELAY": 20.0,
+        "DEPARTURE_DELAY": 3.0,
         "AIR_TIME": 155.0,
         "DISTANCE": 1000.0,
         "ORIGIN_LAT": 40.64, "ORIGIN_LON": -73.78,
