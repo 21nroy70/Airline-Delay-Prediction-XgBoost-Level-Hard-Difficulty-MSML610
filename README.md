@@ -20,15 +20,32 @@ pip install -r requirements.txt
 
 (CatBoost sometimes needs OpenMP on Mac; LightGBM wheel covers most setups)
 
-2) Produce features & train (XGB tuned + baselines)
+2) Produce features & train (XGB tuned + baselines):
+
+Chose 1 of the ways to run:
+
+1. If you wanna run .py files:
 
 python -m src.spark_etl          
   or: notebooks/01_spark_etl_and_features.ipynb
 
-python -m src.train_xgb           # tuned XGB (writes models/tuned_all_features_bo_*)
+python -m src.train_xgb           
 
-python -m src.train_baselines     # LGBM + CatBoost (writes models/{lgbm,cat}_all_features_*)
+python -m src.train_baselines    
+
+
+2. Or if you wanna run .ipynb files:
+
+notebooks/01_spark_etl_and_features.ipynb
+
+notebooks/03_train_evaluate_model.ipynb
+
+notebooks/04_tuning_models_ex.ipynb
 
 3) Launch app
 
 streamlit run src/app.py
+
+Or:
+
+notebooks/05_running_app.ipynb
