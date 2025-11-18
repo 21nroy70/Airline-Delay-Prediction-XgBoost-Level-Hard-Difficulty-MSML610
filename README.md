@@ -24,7 +24,7 @@ pip install -r requirements.txt
 
 Chose 1 of the ways to run:
 
-1. If you wanna run .py files:
+a. If you wanna run .py files:
 
 python -m src.spark_etl          
   or: notebooks/01_spark_etl_and_features.ipynb
@@ -34,7 +34,7 @@ python -m src.train_xgb
 python -m src.train_baselines    
 
 
-2. Or if you wanna run .ipynb files:
+b. Or if you wanna run .ipynb files:
 
 notebooks/01_spark_etl_and_features.ipynb
 
