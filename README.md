@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 2) Produce features & train (XGB tuned + baselines)
 
-python -m src.spark_etl           # or notebooks/01_spark_etl_and_features.ipynb
+python -m src.spark_etl          <tb> <tb> # or notebooks/01_spark_etl_and_features.ipynb
 
 python -m src.train_xgb           # tuned XGB (writes models/tuned_all_features_bo_*)
 
