@@ -153,10 +153,13 @@ python -m src.train_baselines
 python -m src.tuning_models   # Bayesian tuning (Optuna)
 ```
 
-**b) Notebooks**
-- `notebooks/01_spark_etl_and_features.ipynb`  
+**b) Notebooks (you can run all the cells once you open them)**
+- `notebooks/00_colab_setup.ipynb`
+- `notebooks/01_spark_etl_and_features.ipynb`
+- `notebooks/02_EDA_and_analysis.ipynb`
 - `notebooks/03_train_evaluate_model.ipynb`  
-- `notebooks/04_tuning_models_ex.ipynb`  
+- `notebooks/04_tuning_models_ex.ipynb`
+- `notebooks/05_running_app.ipynb`  
 
 ### 3) App
 ```bash
