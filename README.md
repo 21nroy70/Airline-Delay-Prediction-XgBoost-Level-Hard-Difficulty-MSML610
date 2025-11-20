@@ -294,23 +294,6 @@ I removed the CSV upload by default to keep the UX clean for grading.
 
 ---
 
-## Troubleshooting
-
-- **CatBoost on macOS** can require OpenMP; if build issues pop up, use Docker.  
-- **Missing artifacts?** Run `python scripts/smoke_test.py` to check and generate `models/model_comparison.csv`.  
-- **CSV dtype weirdness** (if you re-enable CSV scoring): the app uses strict coercion; ensure column names match those displayed in the UI.
-
----
-
-
-
-### Final note
-
-If you just want to **verify everything works** in under a minute:
-1) `pip install -r requirements.txt`  
-2) `python scripts/smoke_test.py`  
-3) `streamlit run src/app.py`
-
 You’ll see metrics, plots, and be able to score a row **without** re-training anything.
 
 
