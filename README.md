@@ -153,7 +153,7 @@ python -m src.train_baselines
 python -m src.tuning_models   # Bayesian tuning (Optuna)
 ```
 
-**b) Notebooks (you can run all the cells once you open them)**
+**b) Notebooks (this is what I did and advise you to know because you can run all the cells once you open them in VS Code or anywhere once you cloned this repo in whatever directory. Doing so, you can see my thought process for the data side by doing some checks after running the .py with sanity checks and viewing the df's as well as seeing the models and their outputs one by one after x amount of iterations. It gives a more in depth analysis and also ensures that my code scans your directory and places you in the proper file paths as well as downloading the required versions + modeling shenanigins)**
 - `notebooks/00_colab_setup.ipynb`
 - `notebooks/01_spark_etl_and_features.ipynb`
 - `notebooks/02_EDA_and_analysis.ipynb`
