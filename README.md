@@ -246,6 +246,7 @@ I removed the CSV upload by default to keep the UX clean for grading.
 ├── docker_bash.sh
 ├── docker_jupyter.sh
 ├── docker_streamlit.sh
+├── screenshot.pdf    # a google doc that shows screenshots of me running some parts of my programs with outputs and some notes included
 ├── models/                       # artifacts (no retraining needed)
 │   ├── tuned_all_features_bo_model.joblib
 │   ├── tuned_all_features_bo_metrics.json
