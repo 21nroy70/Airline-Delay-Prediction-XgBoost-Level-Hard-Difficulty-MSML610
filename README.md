@@ -118,14 +118,11 @@ conda create -n airline-delay-prediction python=3.10 -y
 conda activate airline-delay-prediction
 pip install -r requirements.txt
 
-# 2) quick verification (checks artifacts + scores one synthetic row)
-python scripts/smoke_test.py
-
-# 3) app (opens at http://localhost:8501)
+# 2) app (opens at http://localhost:8501 and you can see everything including the viz, models, predictions, performance tables, etc. However, look at the Notebooks folder for finer details and sanity checks)
 streamlit run src/app.py
 ```
 
-Or open **`notebooks/05_running_app.ipynb`** and just run the cells there.
+Or open **`notebooks/00,01,02,03,04, and 05_running_app.ipynb`** and just run all the cells there and get the requirements, setup, output, and sanity checks such as viewing the merged dataframe or generating the models updates after certain intervals while they are being trained/ran.
 
 > I intentionally included trained models + metrics in `models/`, so you can review immediately.
 
