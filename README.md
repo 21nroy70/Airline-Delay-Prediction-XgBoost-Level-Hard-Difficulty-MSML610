@@ -1,4 +1,4 @@
-# Airline-Delay-Prediction-XgBoost-Level-Hard-Difficulty-MSML610
+# Airline-Delay-Prediction-XgBoost-Level-Hard-Difficulty-MSML610 Abstract
 Airline Delay Prediction project (hard difficulty) for MSML 610
 
 <br> Here is a link for the instructions (so I can access it easily instead of digging for it): https://github.com/gpsaggese-org/umd_classes/blob/master/class_project/instructions/README.md
@@ -77,7 +77,7 @@ for the app: bash docker_streamlit.sh → open http://localhost:8501
 
 
 
-# Airline-Delay-Prediction — XGBoost (Hard) · MSML 610
+# Airline-Delay-Prediction — XGBoost (Hard) Finer Details
 
 Predicting US airline **arrival delays** using gradient-boosted trees on merged **flights + weather** data. I built a full pipeline (ETL → features → training → Bayesian tuning → model comparison → app) and I’m checking this into the repo with **artifacts included** so you can run and evaluate everything **without re-training for hours**.
 
