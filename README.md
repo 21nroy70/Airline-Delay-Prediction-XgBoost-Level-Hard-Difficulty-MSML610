@@ -71,3 +71,249 @@ for Jupyter: bash docker_jupyter.sh → open http://localhost:8888
 
 for the app: bash docker_streamlit.sh → open http://localhost:8501
 
+
+
+
+
+
+
+# Airline-Delay-Prediction — XGBoost (Hard) · MSML 610
+
+Predicting US airline **arrival delays** using gradient-boosted trees on merged **flights + weather** data. I built a full pipeline (ETL → features → training → Bayesian tuning → model comparison → app) and I’m checking this into the repo with **artifacts included** so you can run and evaluate everything **without re-training for hours**.
+
+- **Course**: MSML 610  
+- **Difficulty**: Hard  
+- **Bonus**: Side-by-side comparison with **LightGBM** and **CatBoost**
+
+### Quick links
+- Project guidelines:  
+  https://github.com/gpsaggese-org/umd_classes/blob/master/class_project/instructions/README.md
+- Project description (XGBoost – Hard):  
+  https://github.com/gpsaggese-org/umd_classes/blob/master/class_project/MSML610/Fall2025/project_descriptions/xgboost_Project_Description.md
+
+---
+
+## What’s in this repo (high level)
+
+- **ETL & Features**: Spark job to join flight + weather, clean types, and build model-ready features  
+- **Modeling**  
+  - `src/train_xgb.py`: strong XGBoost baseline  
+  - `src/tuning_models.py`: **Bayesian tuning** (Optuna TPE) with **time-aware CV**, optimizing AP (PR-AUC)  
+  - `src/train_baselines.py`: LightGBM + CatBoost baselines with the same split and logging  
+- **Artifacts** (already included): saved `.joblib` models, metrics JSONs, and plots (ROC/PR, loss, confusion matrix, feature importance)  
+- **App**: Streamlit UI to browse metrics/plots and **score new flights** (single-row form by default)  
+- **Docs for grading**: API + Example (both **.md** and **.ipynb**) and a tiny **smoke test** script
+
+I made sure you can get to real results quickly. If you don’t want to retrain, you don’t have to.
+
+---
+
+## TL;DR (fastest way to see results)
+
+If you only want to **see visuals / compare models / try a one-row score** and skip training:
+
+```bash
+# 1) env
+conda create -n airline-delay-prediction python=3.10 -y
+conda activate airline-delay-prediction
+pip install -r requirements.txt
+
+# 2) quick verification (checks artifacts + scores one synthetic row)
+python scripts/smoke_test.py
+
+# 3) app (opens at http://localhost:8501)
+streamlit run src/app.py
+```
+
+Or open **`notebooks/05_running_app.ipynb`** and just run the cells there.
+
+> I intentionally included trained models + metrics in `models/`, so you can review immediately.
+
+---
+
+## Reproduce (full, command line)
+
+> Only do this if you want to regenerate features and retrain.
+
+### 1) Create env
+
+```bash
+conda create -n airline-delay-prediction python=3.10 -y
+conda activate airline-delay-prediction
+pip install -r requirements.txt
+# Note: CatBoost may need OpenMP on some Macs; LightGBM wheel usually just works.
+```
+
+### 2) Produce features & train
+
+Pick **one** path:
+
+**a) Python modules**
+```bash
+python -m src.spark_etl
+python -m src.train_xgb
+python -m src.train_baselines
+python -m src.tuning_models   # Bayesian tuning (Optuna)
+```
+
+**b) Notebooks**
+- `notebooks/01_spark_etl_and_features.ipynb`  
+- `notebooks/03_train_evaluate_model.ipynb`  
+- `notebooks/04_tuning_models_ex.ipynb`  
+
+### 3) App
+```bash
+streamlit run src/app.py
+# or open notebooks/05_running_app.ipynb
+```
+
+---
+
+## Docker (zero local setup)
+
+At repo root:
+
+```bash
+chmod +x docker_build.sh docker_bash.sh docker_jupyter.sh docker_streamlit.sh
+
+# Build image
+bash docker_build.sh
+
+# Shell in container
+bash docker_bash.sh
+
+# Jupyter (http://localhost:8888)
+bash docker_jupyter.sh
+
+# Streamlit app (http://localhost:8501)
+bash docker_streamlit.sh
+```
+
+---
+
+## Smoke test (no retraining)
+
+I added a tiny script that:
+1) Confirms `models/` has metrics for **XGB tuned / LGBM / CatBoost**  
+2) Prints a metrics summary and writes `models/model_comparison.csv` if it doesn’t exist  
+3) Loads each model and scores **one** synthetic flight
+
+Run:
+```bash
+python scripts/smoke_test.py
+```
+
+---
+
+## Results snapshot (hold-out validation)
+
+Same time-aware split and identical evaluation across models:
+
+| model        | best_iter | AUC   | AP    | F1    | Precision | Recall | threshold | learning_rate | max_depth | log_loss |
+|--------------|-----------|-------|-------|-------|-----------|--------|-----------|---------------|-----------|----------|
+| **cat**      | 974       | 0.962 | **0.920** | **0.844** | 0.899     | 0.795  | 0.511059  | –             | –         | **0.16098** |
+| **lgbm**     | 318       | 0.962 | 0.918 | 0.841 | 0.885     | 0.801  | 0.475464  | –             | –         | 0.16276  |
+| **xgb_tuned**| 983       | 0.962 | 0.918 | 0.839 | **0.895** | 0.790  | 0.807907  | 0.0876        | 5         | 0.24172  |
+
+- **CatBoost** is best on **AP** and **F1**, and has the lowest log loss.  
+- **LightGBM** is a very close second overall.  
+- **Tuned XGBoost** ties on AUC/AP but trails slightly on F1/log loss at the selected operating point.
+
+You can view ROC/PR curves, loss curves, confusion matrices, and feature importance plots in the app or directly in `models/`.
+
+---
+
+## App overview (`src/app.py`)
+
+- **Model Leaderboard**: AUC, AP, F1, precision/recall, log_loss, best_iter  
+- **Artifacts**: PR/ROC, loss curve, confusion matrix (at chosen threshold), feature importance  
+- **Score new flights**: single-row form with reasonable defaults; uses the model’s stored threshold
+
+I removed the CSV upload by default to keep the UX clean for grading.
+
+---
+
+## Project structure (mapped to rubric)
+
+```
+.
+├── API.md
+├── API.ipynb
+├── example.md
+├── example.ipynb
+├── SUBMISSION.md                 # short map for the TA
+├── Dockerfile
+├── docker_build.sh
+├── docker_bash.sh
+├── docker_jupyter.sh
+├── docker_streamlit.sh
+├── models/                       # artifacts (no retraining needed)
+│   ├── tuned_all_features_bo_model.joblib
+│   ├── tuned_all_features_bo_metrics.json
+│   ├── tuned_all_features_bo_{pr,roc,loss_curve,confusion_matrix,feature_importance}.png
+│   ├── lgbm_all_features_model.joblib
+│   ├── lgbm_all_features_metrics.json
+│   ├── lgbm_all_features_{pr,roc,loss_curve,confusion_matrix,feature_importance}.png
+│   ├── cat_all_features_model.joblib
+│   ├── cat_all_features_metrics.json
+│   ├── cat_all_features_{pr,roc,loss_curve,confusion_matrix,feature_importance}.png
+│   └── model_comparison.csv      # auto-created by smoke_test.py if missing
+├── notebooks/
+│   ├── 01_spark_etl_and_features.ipynb
+│   ├── 03_train_evaluate_model.ipynb
+│   ├── 04_tuning_models_ex.ipynb
+│   └── 05_running_app.ipynb
+├── requirements.txt
+├── scripts/
+│   └── smoke_test.py
+└── src/
+    ├── app.py
+    ├── spark_etl.py
+    ├── train_xgb.py
+    ├── train_baselines.py
+    ├── tuning_models.py
+    └── utils_model.py            # shared API layer (load, coerce, predict, etc.)
+```
+
+---
+
+## API vs Example (as required)
+
+- **`API.md` / `API.ipynb`**  
+  Describe the tool’s **native API** and my **wrapper** in `utils_model.py` (schema coercion, loading artifacts, predicting probabilities, picking thresholds, etc.). Notebooks call functions—no heavy logic inline.
+
+- **`example.md` / `example.ipynb`**  
+  Runnable, end-to-end reference that uses the API: load artifacts, show metrics/plots, and export a comparison table (`model_comparison.csv`) when needed.
+
+---
+
+## Design choices (short version)
+
+- **Time-aware split** and forward CV to avoid temporal leakage  
+- **Objective**: binary:logistic; **metrics**: ROC-AUC and **AP** (class imbalance), and F1 at the chosen threshold  
+- **Tuning**: Optuna TPE with pruning; bounds surfaced as CLI args for reproducibility  
+- **Explainability**: feature importance (gain), confusion matrix with counts + overall %  
+- **App**: lightweight by design; single-row scoring; artifacts panel for quick inspection
+
+---
+
+## Troubleshooting
+
+- **CatBoost on macOS** can require OpenMP; if build issues pop up, use Docker.  
+- **Missing artifacts?** Run `python scripts/smoke_test.py` to check and generate `models/model_comparison.csv`.  
+- **CSV dtype weirdness** (if you re-enable CSV scoring): the app uses strict coercion; ensure column names match those displayed in the UI.
+
+---
+
+
+
+### Final note
+
+If you just want to **verify everything works** in under a minute:
+1) `pip install -r requirements.txt`  
+2) `python scripts/smoke_test.py`  
+3) `streamlit run src/app.py`
+
+You’ll see metrics, plots, and be able to score a row **without** re-training anything.
+
+
