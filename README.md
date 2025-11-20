@@ -241,7 +241,6 @@ I removed the CSV upload by default to keep the UX clean for grading.
 ├── API.ipynb
 ├── example.md
 ├── example.ipynb
-├── SUBMISSION.md                 # short map for the TA
 ├── Dockerfile
 ├── docker_build.sh
 ├── docker_bash.sh
@@ -257,15 +256,13 @@ I removed the CSV upload by default to keep the UX clean for grading.
 │   ├── cat_all_features_model.joblib
 │   ├── cat_all_features_metrics.json
 │   ├── cat_all_features_{pr,roc,loss_curve,confusion_matrix,feature_importance}.png
-│   └── model_comparison.csv      # auto-created by smoke_test.py if missing
+│   └── model_comparison.csv     
 ├── notebooks/
 │   ├── 01_spark_etl_and_features.ipynb
 │   ├── 03_train_evaluate_model.ipynb
 │   ├── 04_tuning_models_ex.ipynb
 │   └── 05_running_app.ipynb
 ├── requirements.txt
-├── scripts/
-│   └── smoke_test.py
 └── src/
     ├── app.py
     ├── spark_etl.py
